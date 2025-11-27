@@ -183,6 +183,132 @@ export function ChatArea({ conversationId }: ChatAreaProps) {
     setEmojiOpen(false);
   };
 
+  const handleDeepSearch = async () => {
+    if (!conversationId || !message.trim()) {
+      toast.error("Veuillez entrer une requête");
+      return;
+    }
+
+    setDeepSearchMode(true);
+    const userMessageText = `[DEEP SEARCH] ${message}`;
+    setMessage("");
+    setLoading(true);
+    setIsThinking(true);
+
+    try {
+      const userMsg: ChatMessage = {
+        id: Date.now().toString(),
+        role: "user",
+        content: `🔍 Recherche approfondie: ${message}`,
+        timestamp: Date.now(),
+      };
+      setChatMessages((prev) => [...prev, userMsg]);
+
+      await MessagesService.addMessage(
+        conversationId,
+        user.uid,
+        `user:${userMessageText}`,
+      );
+
+      const conversationHistory = chatMessages.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      }));
+
+      setIsThinking(false);
+      const aiResponse = await AIService.sendMessage(
+        userMessageText,
+        conversationHistory,
+      );
+
+      const assistantMsg: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: aiResponse,
+        timestamp: Date.now(),
+      };
+      setChatMessages((prev) => [...prev, assistantMsg]);
+
+      await MessagesService.addMessage(
+        conversationId,
+        user.uid,
+        `assistant:${aiResponse}`,
+      );
+
+      await MessagesService.updateUserMessageCount(
+        user.uid,
+        userData.messagesUsed + 1,
+      );
+
+      toast.success("Recherche approfondie effectuée");
+    } catch (error) {
+      console.error("Error in deep search:", error);
+      toast.error("Erreur lors de la recherche approfondie");
+    } finally {
+      setLoading(false);
+      setIsThinking(false);
+      setDeepSearchMode(false);
+    }
+  };
+
+  const handleGenerateImage = async () => {
+    if (!conversationId || !message.trim()) {
+      toast.error("Décrivez l'image à générer");
+      return;
+    }
+
+    setImageGenMode(true);
+    const imagePrompt = message;
+    setMessage("");
+    setLoading(true);
+
+    try {
+      const userMsg: ChatMessage = {
+        id: Date.now().toString(),
+        role: "user",
+        content: `🎨 Générer une image: ${imagePrompt}`,
+        timestamp: Date.now(),
+      };
+      setChatMessages((prev) => [...prev, userMsg]);
+
+      await MessagesService.addMessage(
+        conversationId,
+        user.uid,
+        `user:Générer une image: ${imagePrompt}`,
+      );
+
+      // Generate image using Pollinations.ai
+      const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt)}`;
+
+      const assistantMsg: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: imageUrl,
+        timestamp: Date.now(),
+      };
+      setChatMessages((prev) => [...prev, assistantMsg]);
+
+      await MessagesService.addMessage(
+        conversationId,
+        user.uid,
+        `assistant:${imageUrl}`,
+      );
+
+      await MessagesService.updateUserMessageCount(
+        user.uid,
+        userData.messagesUsed + 1,
+      );
+
+      toast.success("Image générée avec succès!");
+    } catch (error) {
+      console.error("Error generating image:", error);
+      toast.error("Erreur lors de la génération d'image");
+    } finally {
+      setLoading(false);
+      setImageGenMode(false);
+    }
+  };
+
   return (
     <div
       id="chat-area"
