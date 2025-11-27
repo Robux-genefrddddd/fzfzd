@@ -34,7 +34,7 @@ const EMOJIS = [
   "����",
   "❤️",
   "✨",
-  "����",
+  "🚀",
   "���",
 ];
 
@@ -392,11 +392,11 @@ export function ChatArea({ conversationId }: ChatAreaProps) {
 
       {/* Message Input Area - Fixed at Bottom */}
       <div
-        className="px-4 sm:px-6 md:px-8 py-4 sm:py-6 animate-slideUp border-t border-white/10 bg-gradient-to-t from-background to-transparent"
+        className="px-4 sm:px-6 md:px-8 py-4 sm:py-5 animate-slideUp border-t border-border bg-background"
         style={{ animationDelay: "0.2s" }}
       >
         <div
-          className={`flex items-center gap-3 border-2 border-white/40 rounded-2xl px-5 py-4 bg-gradient-to-r from-white/6 to-white/10 backdrop-blur-md transition-all duration-300 group shadow-lg shadow-white/5 ${!conversationId ? "opacity-50 cursor-not-allowed" : "hover:border-white/60 hover:bg-gradient-to-r hover:from-white/10 hover:to-white/15 hover:shadow-lg hover:shadow-white/10 focus-within:border-white/80 focus-within:shadow-xl focus-within:shadow-white/15"}`}
+          className={`flex items-center gap-2 border border-border rounded-xl px-4 py-3 bg-card transition-all duration-200 group ${!conversationId ? "opacity-50 cursor-not-allowed" : "hover:border-primary/50 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20"}`}
         >
           <input
             id="message-input"
@@ -415,7 +415,7 @@ export function ChatArea({ conversationId }: ChatAreaProps) {
                 ? "Votre message..."
                 : "Sélectionnez une conversation..."
             }
-            className="flex-1 bg-transparent text-white placeholder-white/40 focus:outline-none text-sm leading-relaxed disabled:opacity-50 transition-colors"
+            className="flex-1 bg-transparent text-foreground placeholder-muted-foreground focus:outline-none text-sm leading-relaxed disabled:opacity-50 transition-colors"
           />
 
           {/* Emoji Picker */}
