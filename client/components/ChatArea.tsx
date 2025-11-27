@@ -266,8 +266,8 @@ export function ChatArea({ conversationId }: ChatAreaProps) {
                   </div>
                 ) : (
                   <div className="flex gap-3 max-w-2xl items-start">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center flex-shrink-0 mt-1 shadow-md">
-                      <span className="text-xs font-bold text-white">G</span>
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center flex-shrink-0 mt-1 shadow-md border border-orange-400/50 ring-2 ring-orange-400/20">
+                      <span className="text-xs font-bold text-white">V</span>
                     </div>
                     <div className="flex-1 max-w-lg">
                       <div className="rounded-2xl rounded-tl-none bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10 px-5 py-4 backdrop-blur-sm shadow-lg hover:shadow-xl transition-shadow text-white/90 text-sm leading-relaxed break-words">
