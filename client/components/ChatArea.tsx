@@ -298,7 +298,7 @@ export function ChatArea({ conversationId }: ChatAreaProps) {
 
       {/* Message Input Area */}
       <div
-        className="px-8 py-6 animate-slideUp"
+        className="px-4 sm:px-6 md:px-8 py-4 sm:py-6 animate-slideUp"
         style={{ animationDelay: "0.2s" }}
       >
         <div
